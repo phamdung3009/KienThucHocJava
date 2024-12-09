@@ -1,0 +1,50 @@
+Hướng Dẫn sử dụng: @OneToMany, @ManyToOne, @OneToOne, và @ManyToMany trong Java (JPA)
+
+Các annotation này được sử dụng để ánh xạ quan hệ giữa các bảng trong cơ sở dữ liệu thông qua các thực thể (entities) 
+trong Java. Dưới đây là giải thích chi tiết và ví dụ minh họa cho từng loại quan hệ.
+
+1. @OneToMany và @ManyToOne
+Quan hệ One-To-Many (Một-Nhiều) và Many-To-One (Nhiều-Một) là mối quan hệ phổ biến giữa hai
+bảng. Ví dụ: Một Category có nhiều Product, và mỗi Product thuộc về một Category.
+
+Ví dụ: Quan hệ giữa Category và Product
+Entity Category
+
+@Entity
+@Table(name = "categories")
+public class Category {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(nullable = false)
+    private String name;
+
+    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Product> products;
+
+    // Getters and Setters
+}
+
+Entity Product
+@Entity
+@Table(name = "products")
+public class Product {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(nullable = false)
+    private String name;
+
+    @ManyToOne
+    @JoinColumn(name = "category_id")
+    private Category category;
+
+    // Getters and Setters
+}
+
+Giải thích:
+	- @OneToMany trong Category cho biết một Category có thể có nhiều Product.
+	- mappedBy = "category": Được định nghĩa ở phía Product, chỉ rõ đây là khóa ngoại liên kết.
+	- @ManyToOne trong Product ánh xạ nhiều Product vào một Category.
