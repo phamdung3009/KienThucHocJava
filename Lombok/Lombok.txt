@@ -1,0 +1,70 @@
+1, Lombok là gì
+là 1 thư viện java giúp đơn giản hoá việc viết mã bằng cách tự động tạo ra các phương thức như get,setter,equals(),hashCode(),contructor(),toString()...
+mà không cần phải viết thủ công, thay vì viết mã lặp đi lặp lại, chỉ cần sử dụng @Annotation của lombok và thư viện sẽ tự đông tạo ra mã cần thiết
+tại thời điểm biên dịch
+1. sử dụng maven thêm đi dependency(thư viện) vào file pom.xml
+2. cách sử dụng:
+@Data : Tự động sinh getter, setter, toString, equals, và hashCode
+@NoArgsConstructor : Sinh constructor không tham số
+@AllArgsConstructor : Sinh constructor có tham số cho tất cả các field
+@NonNull: Đảm bảo rằng một tham số hoặc thuộc tính không thể là null. Nếu giá trị là null, một ngoại lệ NullPointerException sẽ được ném ra.
+@Getter: Tạo tự động các phương thức getter cho các thuộc tính.
+@Setter: Tạo tự động các phương thức setter cho các thuộc tính.
+@ToString: Tạo phương thức toString() tự động.
+@EqualsAndHashCode: Tạo phương thức equals() và hashCode() tự động.
+#####################################################################################################################################################################################################################
+Lombok là một thư viện Java giúp đơn giản hóa việc viết mã bằng cách tự động tạo ra các phương thức như getter, setter, equals(), hashCode(), toString(), v.v., 
+mà không cần phải viết thủ công. Thay vì phải viết nhiều mã lặp lại, bạn chỉ cần sử dụng các chú thích (annotations) của Lombok và thư viện sẽ tự động tạo ra 
+mã cần thiết tại thời điểm biên dịch.
+Cách sử dụng Lombok:
+Thêm Lombok vào dự án Nếu bạn dùng Maven, thêm dependency sau vào tệp pom.xml:
+Lợi ích của Lombok:
+Giảm mã lặp lại, giúp code gọn gàng hơn.
+Tăng tốc độ phát triển nhờ việc tự động sinh mã boilerplate.
+Lombok là công cụ mạnh mẽ trong việc tối ưu hóa mã, giúp bạn tập trung vào logic chính thay vì phải viết các phương thức thông thường.
+1. Annotations về getter và setter
+@Getter: Tạo tự động các phương thức getter cho các thuộc tính.
+@Setter: Tạo tự động các phương thức setter cho các thuộc tính.
+@Accessors: Kiểm soát cách các phương thức getter và setter được tạo (ví dụ: để tạo chuỗi gọi setter).
+2. Annotations về constructor
+@NoArgsConstructor: Tạo constructor không có tham số.
+@RequiredArgsConstructor: Tạo constructor với các tham số bắt buộc (các trường final hoặc không thể null).
+	Annotation này tạo constructor với các tham số cần thiết. Các tham số cần thiết là những trường được khai 
+	báo là final hoặc có annotation @NonNull. Các trường khác sẽ bị bỏ qua.
+	VD:
+	@RequiredArgsConstructor
+	public class User {
+    private final int id;
+    @NonNull
+    private String name;
+    private String email;
+	}
+	###
+	public User(int id, String name) {
+		this.id = id;
+		this.name = name;
+	}	
+	Constructor được tạo bởi Lombok sẽ chỉ bao gồm các trường id và name (vì id là final và name có @NonNull):
+@AllArgsConstructor: Tạo constructor có đầy đủ tham số cho tất cả các thuộc tính.
+3. Annotations về toString, equals, hashCode
+@ToString: Tạo phương thức toString() tự động.
+@EqualsAndHashCode: Tạo phương thức equals() và hashCode() tự động.
+4. Annotations về logging
+@Slf4j: Tạo một logger sử dụng thư viện Slf4j.
+@Log: Tạo logger sử dụng thư viện java.util.logging.
+@Log4j, @Log4j2, @CommonsLog, @XSlf4j, @JBossLog, @Flogger: Các loại logger khác.
+5. Annotations về kiểm tra null
+@NonNull: Đảm bảo rằng một tham số hoặc thuộc tính không thể là null. Nếu giá trị là null, một ngoại lệ NullPointerException sẽ được ném ra.
+6. Annotations về dữ liệu
+@Data: Kết hợp @Getter, @Setter, @ToString, @EqualsAndHashCode, và @RequiredArgsConstructor. Được dùng để tự động tạo tất cả các phương thức liên quan đến dữ liệu cho một lớp.
+@Value: Giống @Data nhưng áp dụng cho các lớp bất biến (immutable). Tự động đánh dấu tất cả các trường là final và tạo constructor với tất cả tham số.
+7. Annotations về thao tác thử bắt lỗi
+@SneakyThrows: Cho phép bỏ qua việc khai báo các ngoại lệ checked trong phương thức. Lombok sẽ tự động thêm khối try-catch nếu cần.
+8. Annotations khác
+@Builder: Tạo ra một lớp builder để xây dựng các đối tượng theo mô hình builder pattern.
+@Delegate: Ủy quyền các phương thức của một lớp sang một đối tượng thành viên khác.
+@Synchronized: Tạo phiên bản đồng bộ hóa (synchronized) của phương thức.
+@Cleanup: Tự động gọi phương thức close() trên các tài nguyên để tránh rò rỉ tài nguyên.
+Tóm tắt:
+Lombok cung cấp hơn 20 annotation khác nhau, bao gồm các chức năng từ tự động tạo getter/setter đến các constructor, logging, kiểm tra null, và các công cụ khác. 
+Những annotation này giúp giảm mã lặp và tăng tốc phát triển ứng dụng trong Java.

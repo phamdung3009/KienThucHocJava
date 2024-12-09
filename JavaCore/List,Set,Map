@@ -1,0 +1,51 @@
+Liệt kê các phương thức trong List, Set, Map
+List:
+    void add(int index, E element): Chèn phần tử vào danh sách tại vị trí chỉ định.
+    boolean add(E e): Thêm phần tử vào cuối danh sách.
+    boolean addAll(Collection<? extends E> c): Thêm tất cả các phần tử trong collection vào cuối danh sách.
+    boolean addAll(int index, Collection<? extends E> c): Thêm tất cả các phần tử trong collection vào danh sách bắt đầu từ vị trí chỉ định.
+    void clear(): Xóa tất cả các phần tử khỏi danh sách.
+    boolean contains(Object o): Kiểm tra xem danh sách có chứa phần tử cụ thể hay không.
+    E get(int index): Trả về phần tử tại vị trí chỉ định trong danh sách.
+    int indexOf(Object o): Trả về chỉ số của sự xuất hiện đầu tiên của phần tử cụ thể trong danh sách.
+    boolean isEmpty(): Kiểm tra xem danh sách có rỗng hay không.
+    Iterator<E> iterator(): Trả về một iterator qua các phần tử trong danh sách.
+    int lastIndexOf(Object o): Trả về chỉ số của sự xuất hiện cuối cùng của phần tử cụ thể trong danh sách.
+    ListIterator<E> listIterator(): Trả về một list iterator qua các phần tử trong danh sách.
+    ListIterator<E> listIterator(int index): Trả về một list iterator bắt đầu từ vị trí chỉ định trong danh sách.
+    boolean remove(Object o): Xóa sự xuất hiện đầu tiên của phần tử cụ thể từ danh sách.
+    E remove(int index): Xóa phần tử tại vị trí chỉ định trong danh sách.
+    boolean removeAll(Collection<?> c): Xóa tất cả các phần tử của danh sách có trong collection chỉ định.
+    boolean retainAll(Collection<?> c): Giữ lại các phần tử có trong collection chỉ định và xóa các phần tử còn lại.
+    E set(int index, E element): Thay thế phần tử tại vị trí chỉ định bằng phần tử được chỉ định.
+    int size(): Trả về số phần tử trong danh sách.
+    List<E> subList(int fromIndex, int toIndex): Trả về một view của phần danh sách giữa từIndex (bao gồm) và toIndex (không bao gồm).
+    Object[] toArray(): Trả về một mảng chứa tất cả các phần tử trong danh sách.
+    <T> T[] toArray(T[] a): Trả về một mảng chứa tất cả các phần tử trong danh sách, kiểu runtime của mảng trả về là kiểu của mảng được chỉ định.
+SET:
+    boolean add(E e): Thêm phần tử vào tập hợp nếu nó không tồn tại trong tập hợp.
+    boolean addAll(Collection<? extends E> c): Thêm tất cả các phần tử trong collection vào tập hợp nếu chúng không tồn tại trong tập hợp.
+    void clear(): Xóa tất cả các phần tử khỏi tập hợp.
+    boolean contains(Object o): Kiểm tra xem tập hợp có chứa phần tử cụ thể hay không.
+    boolean containsAll(Collection<?> c): Kiểm tra xem tập hợp có chứa tất cả các phần tử trong collection chỉ định hay không.
+    boolean isEmpty(): Kiểm tra xem tập hợp có rỗng hay không.
+    Iterator<E> iterator(): Trả về một iterator qua các phần tử trong tập hợp.
+    boolean remove(Object o): Xóa phần tử cụ thể từ tập hợp nếu nó tồn tại trong tập hợp.
+    boolean removeAll(Collection<?> c): Xóa tất cả các phần tử của tập hợp có trong collection chỉ định.
+    boolean retainAll(Collection<?> c): Giữ lại các phần tử có trong collection chỉ định và xóa các phần tử còn lại.
+    int size(): Trả về số phần tử trong tập hợp.
+    Object[] toArray(): Trả về một mảng chứa tất cả các phần tử trong tập hợp.
+    <T> T[] toArray(T[] a): Trả về một mảng chứa tất cả các phần tử trong tập hợp, kiểu runtime của mảng trả về là kiểu của mảng được chỉ định.
+MAP:
+    void clear(): Xóa tất cả các ánh xạ từ bản đồ.
+    boolean containsKey(Object key): Kiểm tra xem bản đồ có chứa khóa cụ thể hay không.
+    boolean containsValue(Object value): Kiểm tra xem bản đồ có chứa giá trị cụ thể hay không.
+    Set<Map.Entry<K, V>> entrySet(): Trả về một tập hợp của các ánh xạ khóa-giá trị trong bản đồ.
+    V get(Object key): Trả về giá trị tương ứng với khóa chỉ định.
+    boolean isEmpty(): Kiểm tra xem bản đồ có rỗng hay không.
+    Set<K> keySet(): Trả về một tập hợp các khóa trong bản đồ.
+    V put(K key, V value): Thêm một ánh xạ khóa-giá trị vào bản đồ.
+    void putAll(Map<? extends K, ? extends V> m): Thêm tất cả các ánh xạ từ bản đồ chỉ định vào bản đồ hiện tại.
+    V remove(Object key): Xóa ánh xạ cho khóa cụ thể từ bản đồ.
+    int size(): Trả về số ánh xạ khóa-giá trị trong bản đồ.
+    Collection<V> values(): Trả về một collection các giá trị trong bản đồ.

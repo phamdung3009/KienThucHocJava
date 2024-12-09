@@ -1,0 +1,178 @@
+- Phân biệt khái niệm tight-coupling (kết hợp chặt chẽ) và loosely-coupled (kết hợp lỏng lẻo). https://loda.me/khai-niem-tight-coupling-lien-ket-rang-buoc-va-cach-loosely-coupled-loda1557323622585/
+- Dependency Injection (DI) : là việc các Object nên phụ thuộc vào các Abstract Class hoặc các interface và thể hiện chi tiết của nó sẽ được Inject vào đối tượng lúc runtime. 
+							giúp chúng ta dễ dàng mở rộng code và giảm sự phụ thuộc giữa các dependency với nhau.
+ví dụ về (DI):
+	// Một interface cho việc ăn mặc
+	public interface Outfit {
+	  public void wear();
+	}
+
+	// Một object cấp thấp, implement của Outfits
+	public class Bikini implements Outfit {
+	  public void wear() {
+		System.out.println("Đã mặc Bikini");
+	  }
+	}
+
+	// Bây giờ Girl chỉ phụ thuộc vào Outfit. nếu muốn thay đổi đồ của cô gái, chúng ta chỉ cần cho Outfit một thể hiện mới.
+	public class Girl{
+		private Outfit outfit;
+		public Girl(Outfit anything){
+		  this.outfit = anything // Tạo ra một cô gái, với một món đồ tùy biến
+		  // Không bị phụ thuộc quá nhiều vào thời điểm khởi tạo, hay code.
+		}
+	}
+
+	public class Main {
+	  public static void main(String[] args) {
+		Outfit bikini = new Bikini(); // Tạo ra đối tượng Bikini ở ngoài đối tượng
+		Girl ngocTrinh = new Girl(bikini); // Mặc nó vào cho cô gái khi tạo ra cô ấy.
+	  }
+	}
+	
+có 3 cách để Inject dependency vào một đối tượng 
+	1, Constructor Injection: Cái này chính là ví dụ bên trên, tiêm dependency ngay vào Contructor cho tiện. "public Girl(Outfit anything)"
+	2, Setter Injection: ví dụ: girl.setOutfit(new Naked())
+	3, Interface Injection: Mỗi Class muốn inject thì phải implement một Interface có chứa một hàm inject(xx) (Gần như thay thế cho setter). 
+	Rồi bạn muốn inject gì đó thì gọi cái hàm inject(xx) ra.
+	
+Inversion of Control (IOC): giúp ta quản lý và khởi tạo object và  Khi các object cần các dependency gì nó sẽ inject luôn trong thời điểm khởi tạo. Đối tượng chịu trách nhiệm tạo và quản lý đó tên là IoC Container
+	cú phát lấy ra 1 đối tượng: context.getBean(Girl.class);
+ApplicationContext context; // Cái này chính là IOC Container, nó chứa mọi Bean trong này
+
+Phân biệt sự khác nhau giữa @Configuration và @ConfigurationProperties
+
+Sử dụng @Component, @Bean ... : để khai báo cho (IoC Container) quản lý. Tất cả những đối tượng này được gọi với thuật ngữ là Bean (Bean ám chỉ đối tượng được Container quản lý)
+@Configuration: Là một Annotation đặc biệt của Spring được đánh dấu trên một Class. Khi một class được đánh dấu là @Configuration thì Spring hiểu class này là nơi chúng ta cấu hình, cài đặt và tạo ra những Bean cần thiết cho chương trình, 
+nên IOC Container nó sẽ chạy vào Class này trước tiên. Một Ứng dụng có thể có nhiều class chứa @Configuration
+@Bean: Chỉ được gắn trên method. @Bean sẽ nằm trong các class có đánh dấu @Configuration.
+chú ý, khi khi sử dụng @Bean nó sẽ lấy ra các bean object mà hàm trả về và quản lý nó, trường hợp có nhiều hơn 1 bean thì ta cần sử dụng @Primary hoặc @Qualifier
+		@Component // Có component, nên IoC tạo ra 1 Outfit trong Container
+		public class Bikini implements Outfit {
+		  public void wear() {
+			System.out.println("Đã mặc Bikini");
+		  }
+		}
+
+		@Configuration // Vì là Configuration, nên IoC sẽ chạy class này và tạo ra toàn bộ các @Bean trong nó.
+		public class GirlConfig {
+
+		  @Bean // Có @Bean => tạo ra 1 Outfit thứ 2 là Naked trong Container.
+		  public Outfit defaultOutfit(){
+			return new Naked(); 
+		  }
+		}
+
+		class Girl{
+		  // Lúc này IoC Container không biết nên inject thằng outfit nào vào đây.
+		  @Autowired private Outfit outfit;
+		}
+		
+	Cách giải quyết 1 sử dụng @Primary
+		  @Bean
+		  @Primary
+		  public Outfit defaultOutfit(){
+			return new Naked();
+		  }		
+	Cách giải quyết 2  sử dụng @Qualifier
+			@Bean("naked")
+			public Outfit defaultOutfit(){
+			  return new Naked();
+			}
+
+
+			@Component
+			@Scope("prototype")
+			public class Girl {
+			  @Autowired
+			  @Qualifier("naked")
+			  private Outfit outfit;
+			  @Autowired private Accessories accessories;
+			  @Autowired private HairStyle hairStyle;
+			  
+			 // context.getBean("naked", Outfit.class) // hoặc call bằng cách này 
+			}
+			
+			
+@Autowired: Là Annotation được chú thích trên một thuộc tính (field) hoặc hàm (function) để nói với IoC Container là hãy tự inject những thuộc tính này, 
+nhưng thuộc tính hoặc object được inject sẽ được lưu trữ vào IOC container để quản lý luôn
+	ví dụ bên dưới Outfit, Accessories, HairStyle cũng sẽ dc tự động inect và được IOC quản lý: 
+		@Component
+		@Scope("prototype")
+		public class Girl {
+
+		  private Outfit outfit;
+		  private Accessories accessories;
+		  private HairStyle hairStyle;
+
+		  @Autowired
+		  public Girl(Outfit outfit, Accessories accessories, HairStyle hairStyle) {
+			this.outfit = outfit;
+			this.accessories = accessories;
+			this.hairStyle = hairStyle;
+		  }
+
+Anotation @SpringBootApplication: dùng để đánh dấu trên class Main chính. Để nó sẽ tự động config và đi tìm toàn bộ @component và @autowired giúp bạn khi chạy ứng dụng.
+@Scope("prototype"): tương đương với việc tạo new Object
+@Scope("singleton"): Không nói gì, thì Spring sẽ mặc định là scope này. Singleton, đối tượng chỉ được tạo ra duy nhất một lần.
+@PostConstruct được đánh dấu trên một method duy nhất bên trong Bean, IoC Container (ApplicationContext) sẽ gọi hàm này sau khi một Bean được tạo ra
+@PreDestroy được đánh dấu trên một method duy nhất bên trong Bean. IoC Container (ApplicationContext) sẽ gọi hàm này trước khi một Bean bị xóa hoặc không được quản lý nữa.
+@Value được sử dụng trên thuộc tính của class, Có nhiệm vụ lấy thông tin từ file properties và gán vào biến.
+	ví dụ: 
+		application.properties
+			cuongpd3.mysql.url=jdbc:mysql://ip:3306/daccuong
+		public class AppConfig {
+			// Lấy giá trị config từ file application.properties
+			@Value("${cuongpd3.mysql.url}")
+			String mysqlUrl;
+		}
+Kiến trúc Controller-Service - Repository chia project thành 3 lớp:
+	1, Consumer Layer hay Controller: là tầng giao tiếp với bên ngoài và handler các request từ bên ngoài tới hệ thống.
+	2, Service Layer: Thực hiện các nghiệp vụ và xử lý logic
+	3, Repository Layer:: Chịu trách nhiệm giao tiếp với các DB, thiết bị lưu trữ, xử lý query và trả về các kiểu dữ liệu mà tầng Service yêu cầu
+	
+@Service Đánh dấu một Class là tầng Service, phục vụ các logic nghiệp vụ.
+@Repository Đánh dấu một Class Là tầng Repository, phục vụ truy xuất dữ liệu.
+Note : 
+	@Service gắn cho các Bean đảm nhiệm xử lý logic
+	@Repository gắn cho các Bean đảm nhiệm giao tiếp với DB
+	@Component gắn cho các Bean khác.
+@ComponentScan sử dụng trong trường hợp bạn muốn tuỳ chỉnh cấu hình cho Spring Boot chỉ tìm kiếm các bean trong một package nhất định. có 2 cách bên dưới.	
+	Sử dụng @ComponentScan: @ComponentScan("abc.com.vn.others")
+	Sử dụng scanBasePackages tromg @SpringBootApplication : @SpringBootApplication(scanBasePackages = "abc.com.vn.others")
+Multiple package scan
+	@ComponentScan({"abc.com.vn.others","abc.com.vn.others2"})
+	@SpringBootApplication(scanBasePackages = {"abc.com.vn.others", "abc.com.vn.others2"})
+@ConfigurationProperties và @PropertySource.	 https://loda.me/spring-boot-16-huong-dan-su-dung-configuration-properties-loda1558847989506/
+	Ví dụ 
+		@Data // Lombok, xem chi tiết tại bài viết
+		@Component // Là 1 spring bean
+		// @PropertySource("classpath:daccuong.yml") // Đánh dấu để lấy config từ trong file daccuong.yml
+		@ConfigurationProperties(prefix = "daccuong") // Chỉ lấy các config có tiền tố là "daccuong"
+		public class DaccuongAppProperties {
+			private String email;
+			private String googleAnalyticsId;
+			private List<String> authors;
+			private Map<String, String> exampleMap;
+
+
+			// standard getters and setters
+		}
+		daccuong.yml hoặc application.yml
+		daccuong:
+		  email: masterit@gmail.com
+		  googleAnalyticsId: U-xxxxx
+		    authors:
+				- Linh
+				- Kien
+			  exampleMap:
+				key1: hello
+				key2: world
+Sử dụng @PropertySource để định nghĩa tên của file config. Nếu không có annotation này, Spring sẽ sử dụng file mặc định (classpath:application.yml trong thư mục resources)
+@ConfigurationProperties, annotation này đánh dấu class bên dưới nó là properties, các thuộc tính sẽ được tự động nạp vào khi Spring khởi tạo.
+Lưu ý: 
+	các thuộc tính này được xác định bởi prefix=daccuong. Cái này bạn xem file application.yml ở dưới sẽ hiểu. 
+	sử dụng @EnableConfigurationProperties lên một configuration nào đó hoặc class main để sử dụng @ConfigurationProperties và @PropertySource
+	Chúng ta có thể config các thuộc tính bên trong Class kể cả khi nó là Lists, Maps hay một class khác.
+	
+	https://loda.me/spring-boot-0-series-lam-chu-spring-boot-zero-to-hero-loda1558963914472/

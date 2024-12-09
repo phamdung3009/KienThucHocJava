@@ -1,0 +1,80 @@
+* JDBC - là gì: viết tắt là (Java DataBase Connectivity) là 1 API được sử dụng kết nói và tương tác cới DB,
+	JDBC cung cấp các phương thức để thực thi các câu lệnh SQL.
+* Thành phần chính
+	- DriverManager: lớp quản lý các driver cơ sở dữ liệu, chịu trách nhiệm quản lý kết nối giữa ứng dụng và CSDL.
+	Connection: đối tượng này đại điện cho kết kết nối đến cơ sở dữ liệu. Sử dụng DriverManager.getConnection() để lấy 1 kết nối.
+	- Statement và PreparedStatement: các đối tượng này được sử dụng để gửi câu lệnh SQL đến CSDL. PreparedStatement giúp tránh
+	lỗi SQL injection và có hiệu suất cao hơn khi sử dụng với các truy vấn có tham số.
+	- ResultSet: Đối tượng này chứa kết quả của các truy vấn SELECT, cho phép bạn duyệt qua các bản ghi trả về từ cơ sở dữ liệu.
+* Ưu điểm: trực tiếp làm việc với SQL, giúp bạn có quyền kiểm soát truy vấn và tương tác với cơ sở dử liệu.
+	đơn giản dễ hiểu và dễ sử dụng, giúp hiệu suất cao với các ứng dụng đơn giản
+* Nhược điểm: Tốn công sức cần phải viết nhiều mã lệnh để thực hiện các thao tác phổ biến như truy vấn, CRUD, đặc biệt là quản lý
+	kết nối với Exception. Khó bảo trì nếu dứng dụng có nhiều logic liên quan đến cơ sở dữ liệu, mã JDBC có thể trở nên phức tạp
+	khó xử lý. Khả năng mở rộng hạn chế khó khăn trong việc quản lý các mối quan hệ phức tạp giữa các hoặc các đối tượng.
+
+
+* Hibernate là gì?
+	Hibernate là 1 "Framewordk ORM (Object-Relational Mapping)". Nó giúp ánh xạ(mapping) các đối tượng(Object) Java với các bảng 
+	trong CSDL quan hệ(RDMS).
+	Hibernate giúp đơn giản hoá việc lưu trữ, truy vấn và quản lý dữ liệu trong CSDL mà không cần phải viết quá nhiều mã SQL thuần,
+	nhờ đó giúp giảm bớt độ phức tạp và khả năng lỗi trong quá trình làm việc
+* Thành phần chính:
+	- ORM là một kỹ thuật ánh xạ giữa các đối tượng trong lập trình hướng đối tượng và các bảng trong cơ sở dữ liệu. Hibernate sử 
+	dụng kỹ thuật ORM để biến đổi các đối tượng Java thành bản ghi trong cơ sở dữ liệu mà không cần viết SQL thủ công.
+	- Session và SessionFactory: Quản lý kết nối và phiên làm việc với cơ sở dữ liệu.
+	- HQL (Hibernate Query Language): Ngôn ngữ truy vấn tương tự SQL, thao tác trên đối tượng Java.
+	- Annotations/XML: Ánh xạ đối tượng với bảng bằng annotations hoặc tệp XML.
+	- Lazy/Eager Loading: Cách thức nạp dữ liệu (chậm hoặc ngay lập tức).
+	- Transaction Management: Quản lý giao dịch, đảm bảo tính toàn vẹn.
+	- Caching: Tăng hiệu suất với bộ nhớ đệm.
+	- Tự động tạo bảng: Hibernate có thể tự động tạo bảng từ các lớp Java.
+* Ưu điểm: 
+	- ORM tự động chuyển đổi giữa các đối tượng Java và CSDL, giảm thời gian viết các câu lệnh SQL, Hỗ trợ nhiều cơ sở dữ liệu khác
+	nhau mà không cần thay đổi nhiều trong code, tích hợp Caching tăng hiệu suất khi truy xuất dữ liệu, HQL cho phép thao tác trên
+	đối tượng Java thay vì bảng CSDL, Transaction quản lý giao dịch dễ dàng các giao dịch phức tạp, đảm bảo tính toàn vẹn dữ liệu,
+	tự động cập nhật các bảng dựa trên định nghĩa các lớp java
+* Nhược điểm:
+	- Có thể chậm khi xử lý ứng dụng với số lượng truy vấn đơn giản do sự phực tạp của ORM, Đối với các ứng dụng nhỏ, Hibernate có
+	thể quá phức tạp so với việc sử dụng JDBC, Lazyloading có thể gây ra vấn đề nếu không được lý tốt làm nguy cơ quá tải bộ nhớ.
+	Cần cấu hình và quản lý  đúng cách để tận dụng caching, nếu không sẽ dẫn đến các vấn đề về đồng bộ dữ liệu. Hibernate che giấu 
+	nhiều chi tiết về SQL, có thể làm giảm quyền kiểm soát tinh chỉnh hiệu năng.
+	
+----------------------------------------------------------------------------------------------------------------------
+|Type				| Hibernate									| JDBC												 |
+----------------------------------------------------------------------------------------------------------------------
+|Loại công nghệ		| Framework ORM (Object-Relational Mapping)	| API (Java Database Connectivity)			 		 |
+----------------------------------------------------------------------------------------------------------------------
+|Cách thao tác dữ 	| Thao tác trên đối tượng Java, tự động ánh	|Trực tiếp thao tác với bảng CSDL thông	qua SQL		 |
+|liệu				| với bảng CSDL								| API (Java Database Connectivity)			 		 |
+----------------------------------------------------------------------------------------------------------------------
+|Ngôn ngữ truy vấn 	| HQL (Hibernate Query Language)			|SQL (phải tự viết)	 								 |
+----------------------------------------------------------------------------------------------------------------------
+|Quản lý kết nối 	| Hibernate tự động quản lý kết nối và 		|Phải tự quản lý kết nối (mở, đóng)		 			 |
+|					| session									| 		 		 									 |
+----------------------------------------------------------------------------------------------------------------------
+|Tốc độ phát triển 	| Nhanh, tự động hóa nhiều thao tác với 	|Chậm hơn, phải viết nhiều mã lặp lại	 			 |
+|					| CSDL										| 		 		 									 |
+----------------------------------------------------------------------------------------------------------------------
+|Hiệu suất		 	| Chậm hơn với tác vụ đơn giản, nhưng tối  	|Nhanh hơn trong các tác vụ đơn giản, ít lớp trung 	 |
+|					| ưu với dự án lớn							| gian	 		 									 |
+----------------------------------------------------------------------------------------------------------------------
+|Caching		 	| Hỗ trợ caching (cấp 1 và cấp 2)		  	|Không có caching tích hợp						 	 |
+----------------------------------------------------------------------------------------------------------------------
+|Quản lý giao dịch	| Quản lý giao dịch tự động, dễ dàng	  	|Phải tự quản lý (commit, rollback)				 	 |
+|					| rollback khi gặp lỗi						| 		 		 									 |
+----------------------------------------------------------------------------------------------------------------------
+|Độ phức tạp		| Phức tạp hơn, cần cấu hình và học các 	|Đơn giản hơn cho các truy vấn và thao tác cơ bản	 |
+|					| Khái niệm ORM								| 		 		 									 |
+----------------------------------------------------------------------------------------------------------------------
+|Hỗ trợ đa CSDL		| Dễ dàng chuyển đổi giữa các hệ quản trị  	|Phải chỉnh sửa lại code SQL nếu CSDL thay đổi		 |
+|					| CSDL										| 		 		 									 |
+----------------------------------------------------------------------------------------------------------------------
+|Tự động cập nhật 	| Có thể tự động tạo và cập nhật bảng từ  	|Không hỗ trợ, cần viết thủ công các lệnh SQL		 |
+|schema				| đối tượng Java							| 		 		 									 |
+----------------------------------------------------------------------------------------------------------------------
+|Lazy/Eager Loading	| Hỗ trợ cơ chế nạp chậm (Lazy) hoặc nạp  	|Không có cơ chế nạp dữ liệu tự động				 |
+|					|  ngay (Eager)								| 		 		 									 |
+----------------------------------------------------------------------------------------------------------------------
+|Phù hợp cho dự án	| Lớn, phức tạp, yêu cầu bảo trì dễ dàng  	|Nhỏ, đơn giản, cần hiệu suất cao và kiểm soát chi 	 |
+|					| 											|tiết 		 		 								 |
+----------------------------------------------------------------------------------------------------------------------

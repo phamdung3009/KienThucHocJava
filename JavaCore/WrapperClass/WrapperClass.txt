@@ -1,0 +1,38 @@
+* Wrapper Class: lớp bao cung cấp 1 cách để chúng ta sử dụng kiểu dữ liệu nguyên thuỷ như kiểu dữ liệu tham chiếu
+(Kiểu dữ liệu tham chiếu - điểm đặc biệt kiểu dữ liệu tham chiếu là chứa đựng nhiều phương thúc hữu ích giúp chúng tá xử lý dữ liệu linh hoạt hơn)
+	- cung cấp phương án sử dụng kiểu dữ liệu nguyên thuỷ như 1 đối tượng
+	- lợi ích cung cấp các phương thúc sử dụng để thao tác với dữ liệu nguyên thuỷ
+			--------------------------------------------------------
+			| Primitive data types 		| Wrapper class			   |
+			--------------------------------------------------------
+			| boolean				 	| Boolean				   |
+			--------------------------------------------------------
+			| char				 		| Character				   |
+			--------------------------------------------------------
+			| byte				 		| Byte					   |
+			--------------------------------------------------------
+			| short				 		| Short					   |
+			--------------------------------------------------------
+			| int				 		| Integer				   |
+			--------------------------------------------------------
+			| long				 		| Long					   |
+			--------------------------------------------------------
+			| float				 		| Float					   |
+			--------------------------------------------------------
+			| double			 		| Double				   |
+			--------------------------------------------------------
+* String có phải là Wrapper class không? - Không
+	- Wrapper chỉ bọc lấy dữ liệu nguyên thuỷ (Primitive data types)
+	- String bao lấy 1 mảng không phải kiểu dữ liệu nguyên thuỷ duy nhất, nhưng String cũng là 1 kiểu dữ liệu tham chiếu
+* Autoboxing và Unboxing
+	- Autoboxing: Tự động chuyển đổi từ kiểu nguyên thủy sang đối tượng Wrapper Class.
+	- Unboxing: Tự động chuyển đổi từ đối tượng Wrapper Class sang kiểu nguyên thủy.
+VD:
+// Autoboxing: tự động chuyển kiểu nguyên thủy thành đối tượng
+Integer wrapperInt = 10;  // Integer là Wrapper Class của int
+
+// Unboxing: tự động chuyển đối tượng thành kiểu nguyên thủy
+int primitiveInt = wrapperInt;
+
+System.out.println("Autoboxing: " + wrapperInt);  // Kết quả: Autoboxing: 10
+System.out.println("Unboxing: " + primitiveInt);  // Kết quả: Unboxing: 10

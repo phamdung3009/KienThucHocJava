@@ -1,0 +1,232 @@
+1. Kiểu dữ liệu trong java
+	1.1. Kiểu dữ liệu nguyên thuỷ(Primitive)
+		1.Boolean - so sanh true false
+		2.char - kiểu dữ liệu ký tự
+		3.byte - kiểu dữ liệu lưu số nguyên(âm hoặc dương)
+		4.Short - dữ liệu có kiểu số nguyên
+		5.Int - kiểu dữ liệu dùng để lưu kiểu số nguyên
+		6.Long
+		7.Float -  kiểu dữ liệu lưu số thực(Lưu ý: khi khai báo kiểu dữ liệu là float sau giá trị luôn có chữ f VD: float x = 10.0f
+		8.double - kiểu dữ liệu để lưu số thực nhưng lơn hơn float
+	1.2. Kiểu dữ liệu không phải nguyên thuỷ(Non-Primitive)
+		String
+		Array...
+2. So sánh "==", "equals()", và String
+	VD: String a = "hello", String b = "hello"
+	2.1. "=="
+		so sánh về địa chỉ bộ nhớ của 2 đối tượng, tức là kiểm tra xem chúng có trỏ tới cùng một vị trí trong bộ nhớ hay không.
+		khi so sánh các kiểu dữ liệu nguyên thủy(primitive types) như int, float, char, boolean, == kiểm tra giá trị của chúng.
+	2.2. "equals()"
+		So sánh nội dung giá trị của đối tượng:
+	2.3. String tìm hiểu về Heep và String Pool:
+		String thường được lưu ở 2 vị trí <heep> và <String pool>
+		2.3.1. <heep>
+			là bộ nhớ lớn để lưu trữ tất cả các đối tượng java
+			khi tạo mới 1 đối tượng String = từ khoá <new>, 1 đối tượng mới đc tạo và lưu trữ vào heep, ngay
+			cả khi có 1 nội đã tồn tại 
+			VD:
+				String str1 = new String("Hello");
+				String str2 = new String("Hello");
+				System.out.println(str1 == str2); // false, vì str1 và str2 là hai đối tượng khác nhau trong heap
+		2.3.2. <String pool>
+			là một vùng đặc biệt của bộ nhớ heap được quản lý bởi JVM để lưu trữ các chuỗi duy nhất.
+			Khi một chuỗi được tạo mà không sử dụng từ khóa new, JVM sẽ kiểm tra xem chuỗi này đã tồn 
+			tại trong String pool chưa.
+			Nếu có, nó sẽ trả về tham chiếu tới chuỗi đã tồn tại, thay vì tạo một đối tượng mới.
+			Nếu chưa có, chuỗi sẽ được thêm vào String pool.
+			VD:
+			String str1 = "Hello";
+			String str2 = "Hello";
+			System.out.println(str1 == str2); // true, vì str1 và str2 cùng trỏ đến chuỗi "Hello" trong String pool
+		2.3.3. intern() Method
+			Bạn có thể đưa một chuỗi vào String pool bằng cách sử dụng phương thức intern()
+			Khi bạn gọi intern() trên một đối tượng String, nếu chuỗi đã tồn tại trong String
+			pool, nó sẽ trả về tham chiếu đến chuỗi đó. Nếu không, chuỗi sẽ được thêm vào pool 
+			và tham chiếu đến nó sẽ được trả về.
+			VD:
+			String str1 = new String("Hello");
+			String str2 = str1.intern();
+			String str3 = "Hello";
+			System.out.println(str1 == str3); // false, vì str1 trỏ tới đối tượng trong heap
+			System.out.println(str2 == str3); // true, vì str2 và str3 đều trỏ tới chuỗi trong String pool
+		2.3.4. Tóm tắt sự khác biệt
+		------------------------------------------------------------------------------------------------------------------
+		|Đặc điểm		|Heep								|String Pool												 |
+		------------------------------------------------------------------------------------------------------------------
+		|vị trí bộ		|Bộ nhớ heap						|Một vùng đặc biệt của heap được quản lý riêng				 |
+		|nhớ			|									|															 |
+		------------------------------------------------------------------------------------------------------------------
+		|Cách tạo chuỗi	|Dùng từ khóa [new]					|Chuỗi tạo trực tiếp mà không dùng [new]					 |
+		------------------------------------------------------------------------------------------------------------------
+		|Lưu trữ chuỗi	|Lưu trữ đối tượng [String]			|Lưu trữ các chuỗi duy nhất, tránh tạo ra các chuỗi trùng lặp|
+		------------------------------------------------------------------------------------------------------------------
+		|So sánh tham 	|Các đối tượng String khác nhau dù 	|Các chuỗi giống nhau cùng trỏ tới một địa chỉ				 |
+		|chiếu			|nội dung giống						|															 |
+		------------------------------------------------------------------------------------------------------------------
+		|Hiệu suất		|Chậm hơn do tạo đối tượng mới 		|Nhanh hơn do tái sử dụng các chuỗi đã tồn tại				 |
+		|				|trong heap							|															 |
+		------------------------------------------------------------------------------------------------------------------
+		2.3.5. Khi nào nên dùng:
+			* Heap: Khi bạn cần tạo một chuỗi mà chắc chắn nó phải là đối tượng mới, khác với tất cả các chuỗi hiện có.
+			* String Pool: Khi bạn muốn tối ưu bộ nhớ và sử dụng lại các chuỗi giống nhau (ví dụ: sử dụng chuỗi trực tiếp 
+			  hoặc dùng intern()).
+			  Lưu ý : Điều này giúp Java tiết kiệm bộ nhớ và tăng hiệu suất khi làm việc với các chuỗi giống nhau.
+3.OOP - 4 tính chẩt
+	3.1. Tính đóng gói
+		Sẽ cho các bạn bảo toàn, toàn vẹn dữ liệu
+		Tính đóng gói là một cơ chế của OOP giúp hạn chế quyền truy cập trực tiếp vào dữ liệu của đối tượng từ bên ngoài.
+		Điều này được thực hiện thông qua việc sử dụng các phương thức getter và setter để truy cập và cập nhật giá trị 
+		của các biến private trong class
+		3.1.1. Liên quan tới tính đóng gói phải kể đến đặc điểm các Access Modifier
+			* private: chỉ sử dụng được trong class
+			* default: chỉ sử dụng trong class và trong package
+			* Protected : chỉ sử dụng trong class, package, ngoài package bởi lớp cha con
+			* public : sử dụng được tất cả mọi nơi
+	3.2. Tính Kế Thừa
+		Tính kế thừa cho phép một class kế thừa các thuộc tính và phương thức của một class khác
+		class kế thừa được gọi là class con, và class được kế thừa là class cha.
+		Tính kế thừa cho phép tái sử dụng mã (code reuse) và mở rộng chức năng của lớp cha mà không
+		cần phải viết lại toàn bộ mã. Điều này giúp cho mã nguồn trở nên gọn gàng hơn, dễ bảo trì và dễ
+	3.3. Tính đa hình
+		Đa hình sẽ liên quan tới cha con(kế thừa)
+		Tính đa hình : đa là nhiều - hình là hình dạng hình dáng mẫu khác nhau
+		GT1: 1 công việc hay 1 hành động sẽ thực hiện bằng cách khác nhau gọi là đa hình
+		GT2: Tính đa hình cho phép các đối tượng được xử lý dựa trên hình thái của chúng mà không cần
+			biết chính xác lớp hoặc đối tượng cụ thể nào đang được thao tác
+			các đối tượng lớp con cũng là các đối tượng của lớp cha và có thể khai báo với kiểu dữ liệu là lớp cha
+		3.3.1. các loại đa hình trong java
+		- Overloading và Overriding thể hiện tính đa hình trong java
+		3.3.1.1. Nạp chồng (Overloading): cho phép trong 1 class có thể định nghĩa ra nhiều phương thức cùng tên nhưng 
+				khác nhau về tham số truyền vào
+				lấy VD: như contructor cũng là 1 Overloading
+		3.3.1.2.Ghi đè (Overriding): là hai phương thức cùng tên, cùng tham số, cùng kiểu trả về nhưng thằng con viết lại 
+				và dùng theo cách của nó, và xuất hiện ở lớp cha và tiếp tục xuất hiện ở lớp con. Khi dùng override, lúc 
+				thực thi, nếu lớp Con không có phương thức riêng, phương thức của lớp Cha sẽ được gọi, ngược lại nếu có, 
+				phương thức của lớp Con được gọi
+		3.3.1.3. Sự khác biệt qua bảng biểu
+		------------------------------------------------------------------------------------------------------------------
+		|Đặc điểm		|Overloading						|Overriding													 |
+		------------------------------------------------------------------------------------------------------------------
+		|class			|Xảy ra trong cùng một lớp.			|Xảy ra trong các lớp có quan hệ kế thừa.					 |
+		------------------------------------------------------------------------------------------------------------------
+		|Tên phương thức|Giống nhau.						|Giống nhau.												 |
+		------------------------------------------------------------------------------------------------------------------
+		|Kiểu tham số	|Khác nhau (số lượng hoặc kiểu dữ 	|Giống hệt như phương thức trong lớp cha.	 				 |
+		|				|liệu).								|															 |
+		------------------------------------------------------------------------------------------------------------------
+		|Kiểu trả về 	|Có thể khác nhau.				 	|Phải giống hệt kiểu trả về của phương thức					 |
+		|				|									|trong lớp cha.												 |
+		------------------------------------------------------------------------------------------------------------------
+		|Mục đích		|Cung cấp nhiều cách sử dụng cùng 	|Cung cấp một triển khai cụ thể trong lớp con cho một phương |
+		|				|một phương thức với các tham số 	|thức từ lớp cha											 |
+		|				|khác nhau.							|															 |
+		------------------------------------------------------------------------------------------------------------------
+		|Kế thừa		|không cần 							|Cần thiết													 |
+		------------------------------------------------------------------------------------------------------------------
+		|Annotation		|không cần							|Sử dụng [@Annotation] để biểu thị ghi đè					 |
+		------------------------------------------------------------------------------------------------------------------
+	3.4. Tính trừu tượng
+		Tính trừu tượng là một tiến trình ẩn các chi tiết trình triển khai và chỉ hiển thị tính năng tới người dùng. 
+		Tính trừu tượng cho phép bạn loại bỏ tính chất phức tạp của đối tượng bằng cách chỉ đưa ra các thuộc tính và 
+		phương thức cần thiết của đối tượng trong lập trình.
+		Tính trừu tượng giúp bạn tập trung vào những cốt lõi cần thiết của đối tượng thay vì quan tâm đến cách nó thực hiện.
+		Trong Java, chúng là sử dụng abstract class và abstract interface để có tính trừu tượng.
+5. Array
+	5.1. có mấy cách khai báo mảng
+		5.1.1. Khai báo mảng và khởi tạo mảng với kích thước cụ thể (không có giá trị ban đầu)
+			int[] array = new int[5];
+		5.1.2. Khai báo và khởi tạo mảng với giá trị ban đầu
+			int[] array = {1, 2, 3, 4, 5};
+		5.1.3. Khai báo mảng trước, khởi tạo sau
+			int[] array; 
+			array = new int[5]; 
+			array = new int[]{1, 2, 3, 4, 5};
+	5.2. Tìm phần tử lớn nhất trong mảng làm như thế nào
+		1. sử dụng for
+		2. Array.sort();
+6. Array - ArrayList có gì khác nhau?
+	6.1. sự khác nhau
+		* Mảng sẽ là tĩnh - khi khai báo 5 phần tử thôi thì khi thêm phần tử sẽ bị Exception
+		có thể thêm sửa xoá được cho mảng nhưng phải xử lý code và thuật toán code khá là dài dòng rất nhiều
+		và khi thêm 1 phần tử lại phải cấp phát bộ nhớ cho nó, thay vì thế list là 1 mảng động mình chỉ thêm
+		đằng sau thôi không phải cấp phát bộ nhớ nữa
+		* List và ArrayList - mảng động có thể thêm sửa xoá dễ dàng hơn
+	6.2. sự khác biệt quả bảng biểu
+		--------------------------------------------------------------------------------------------------------------------
+		|Đặc điểm		|Array							  	  |ArrayList												   |
+		--------------------------------------------------------------------------------------------------------------------
+		|Kích thước		|Cố đinh không thay đổi				  |Động, tự động điều chỉnh khi thêm/xóa phần tử			   |
+		--------------------------------------------------------------------------------------------------------------------
+		|Loại dữ liệu	|Hỗ trợ kiểu nguyên thủy và đối tượng |Chỉ hỗ trợ đối tượng 									   |
+		--------------------------------------------------------------------------------------------------------------------
+		|Hiệu suất		|Nhanh hơn trong truy cập và lưu trữ  |Chậm hơn do quản lý động kích thước						   |
+		--------------------------------------------------------------------------------------------------------------------
+		|Phương thức hỗ |Không có phương thức tiện lợi	 	  |Nhiều phương thức tiện lợi có sẵn					  	   |
+		|trợ			|									  |
+		--------------------------------------------------------------------------------------------------------------------
+		|Sự linh hoạt	|Ít linh hoạt, cần quản lý thủ công	  |Linh hoạt hơn với khả năng quản lý tự động	   			   |
+		--------------------------------------------------------------------------------------------------------------------
+		|Hỗ trợ đa chiều|Hỗ trợ mảng đa chiều				  |Chỉ hỗ trợ danh sách đơn chiều				   			   |
+		--------------------------------------------------------------------------------------------------------------------
+7. List và Set
+	7.1. List và Set có gì khác nhau
+		List có thể thêm các phần tử trùng lặp
+		Set sẽ không thể thêm được các phần tử trùng lặp
+	7.2. Tìm 1 phần tử có tồn tại trong list or set sử dụng như thế nào?
+		sử dụng method có sẵn : contains();
+	7.3: hello Làm sao để đếm được chữ trong này, hello xuất bao nhiêu lần làm ntn
+	cách đơn gian nhập vào 1 String, sử dụng subString tạo ra các cái mảng chuỗi, tách từng phần tử
+	tạo 1 map, sẽ lưu String và Int,
+	7.4. sự khác biết qua bảng biểu:
+		--------------------------------------------------------------------------------------------------------------------
+		|Đặc điểm		|List							  	  |Set														   |
+		--------------------------------------------------------------------------------------------------------------------
+		|Thứ tự phần tử	|Duy trì thứ tự chèn vào		  	  |Không duy trì thứ tự (ngoại trừ LinkedHashSet, TreeSet).	   |
+		--------------------------------------------------------------------------------------------------------------------
+		|Phần tử trùng	|Cho phép phần tử trùng lặp			  |Không cho phép phần tử trùng lặp							   |
+		|lặp			|									  | 														   |
+		--------------------------------------------------------------------------------------------------------------------
+		|Truy cập theo	|Có thể truy cập phần tử bằng chỉ	  |Không hỗ trợ truy cập theo chỉ số						   |
+		|chỉ số			|số (index)							  | 														   |
+		--------------------------------------------------------------------------------------------------------------------
+		|Hiệu suất		|Truy cập phần tử theo chỉ số nhanh	  |Thêm/xóa phần tử nhanh hơn trong các tập hợp lớn		  	   |
+		--------------------------------------------------------------------------------------------------------------------
+		|các triển khai	|[ArrayList, LinkedList]			  |[HashSet, LinkedHashSet, TreeSet]						   |
+		|chính			|									  | 														   |
+		--------------------------------------------------------------------------------------------------------------------
+		|Ứng dụng		|hi cần một danh sách có thứ tự, có   |Khi cần một tập hợp không trùng lặp.						   |
+		|				|thể chứa trùng lặp.				  | 														   |
+		--------------------------------------------------------------------------------------------------------------------
+8. Xử lý ngoại lệ
+	8.1. Có mấy cách bắt Exception - có 3 cách
+		8.1.1. Khối try-catch
+			khi gặp 1 đoạn code bị nghi Exception mình sẽ sử dụng khối try-catch để vứt ra 1 ngoại lệ
+			Tránh cho trương chình và các ứng dụng đang chạy phải dừng đột ngột
+		8.1.2. Throws  
+			Thường được khai báo khi khởi tạo method, khi khai báo Throws trong thân hàm phải sử dụng
+			throw 
+		8.1.3. Throw
+			Throw khi ta nghi ngờ có đoạn code chạy gặp Exception thì ta sử dụng Throw trực tiếp
+			để "throw new" để xử lý Exception
+	8.2. sự khác biệt qua bảng biểu
+		--------------------------------------------------------------------------------------------------------------------
+		|Exception Type	|Mục đích			|Cách Hoạt Động				   |Ví dụng										   |
+		--------------------------------------------------------------------------------------------------------------------
+		|try-catch		|Xử lý ngoại lệ		|Đặt mã có thể gây ra ngoại	   |java try { int result = 10 / 0; } catch		   |
+		|				|ngay khi nó		|lệ trong try, và xử lý		   |(ArithmeticException e) {					   |
+		|				|xảy ra				|ngoại lệ trong catch		   |System.out.println("Lỗi: Không thể chia cho 0")|
+		--------------------------------------------------------------------------------------------------------------------
+		|Throw			|ném ngoại lệ thủ	|Dùng để ném ra một ngoại	   |java if (age < 18) { 						   |
+		|				|công				|lệ từ mã của bạn			   |throw new IllegalArgumentException("Tuổi phải  |
+		|				|					|							   |lớn hơn 18"); }								   |
+		--------------------------------------------------------------------------------------------------------------------
+		|throws			|Khai báo rằng 		|Được sử dụng trong chữ ký 	   |java public void readFile(String fileName)	   |
+		|				|phương thức có thể |phương thức để thông báo rằng |throws IOException { FileReader file = new	   |
+		|				|ném ngoại lệ		|phương thức này có thể ném	   |FileReader(fileName); }						   |
+		|				|					|một hoặc nhiều ngoại lệ	   |											   |
+		--------------------------------------------------------------------------------------------------------------------
+		Tóm lại:
+		- try-catch: Được sử dụng để bắt và xử lý ngoại lệ khi chúng xảy ra.
+		- throw: Dùng để ném ngoại lệ một cách thủ công trong mã của bạn.
+		- throws: Được sử dụng cùng hàng phương thức để khai báo rằng phương thức này có thể ném ra một hoặc nhiều ngoại 
+		  lệ mà người gọi cần xử lý.

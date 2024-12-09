@@ -1,0 +1,11 @@
+- Generics trong Java là một tính năng mạnh mẽ cho phép tạo các lớp, phương thức và giao diện có thể làm việc với 
+bất kỳ kiểu dữ liệu nào mà vẫn duy trì sự an toàn kiểu dữ liệu (type safety). Nó giúp giảm thiểu việc sử dụng 
+kiểu dữ liệu chung chung như Object, đồng thời tránh được lỗi ép kiểu không an toàn.
+
+- Một số quy ước đặt tên kiểu tham số Generic
+	E- Element (phần tử – được sử dụng phổ biến trong Collection Framework)
+	K – Key (khóa)
+	V – Value (giá trị)
+	N – Number (kiểu số: Integer, Double, Float, …)
+	T – Type (Kiểu dữ liệu bất kỳ thuộc Wrapper class: String, Integer, Long, Float, …)
+	S, U, V … – được sử dụng để đại diện cho các kiểu dữ liệu (Type) thứ 2, 3, 4, …
