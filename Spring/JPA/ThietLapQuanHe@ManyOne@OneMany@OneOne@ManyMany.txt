@@ -48,3 +48,96 @@ Giải thích:
 	- @OneToMany trong Category cho biết một Category có thể có nhiều Product.
 	- mappedBy = "category": Được định nghĩa ở phía Product, chỉ rõ đây là khóa ngoại liên kết.
 	- @ManyToOne trong Product ánh xạ nhiều Product vào một Category.
+	
+2. @OneToOne
+Quan hệ One-To-One (Một-Một) biểu diễn mối quan hệ mà mỗi bản ghi của bảng này chỉ liên kết với một bản ghi của bảng kia. 
+Ví dụ: Một User có một Profile.
+@Entity
+@Table(name = "users")
+public class User {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(nullable = false)
+    private String username;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "profile_id", referencedColumnName = "id")
+    private Profile profile;
+
+    // Getters and Setters
+}
+
+@Entity
+@Table(name = "profiles")
+public class Profile {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private String bio;
+
+    @OneToOne(mappedBy = "profile")
+    private User user;
+
+    // Getters and Setters
+}
+
+Giải thích:
+	@OneToOne trong User cho biết mỗi User có một Profile.
+	@JoinColumn: Xác định cột liên kết giữa hai bảng.
+	mappedBy = "profile": Chỉ định Profile là đối tượng được ánh xạ ngược.
+	
+3. @ManyToMany
+Quan hệ Many-To-Many (Nhiều-Nhiều) biểu diễn mối quan hệ mà mỗi bản ghi của bảng này có thể
+liên kết với nhiều bản ghi của bảng kia, và ngược lại. Ví dụ: Một Student có thể học nhiều Course, và 
+một Course có thể có nhiều Student.
+
+Ví dụ: Quan hệ giữa Student và Course
+
+@Entity
+@Table(name = "students")
+public class Student {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private String name;
+
+    @ManyToMany
+    @JoinTable(
+        name = "student_course",
+        joinColumns = @JoinColumn(name = "student_id"),
+        inverseJoinColumns = @JoinColumn(name = "course_id")
+    )
+    private List<Course> courses;
+
+    // Getters and Setters
+}
+
+@Entity
+@Table(name = "courses")
+public class Course {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private String title;
+
+    @ManyToMany(mappedBy = "courses")
+    private List<Student> students;
+
+    // Getters and Setters
+}
+
+Giải thích:
+	@ManyToMany trong Student và Course chỉ ra mối quan hệ Nhiều-Nhiều.
+	@JoinTable: Tạo bảng trung gian (student_course) để lưu khóa chính từ cả hai bảng.
+	joinColumns: Chỉ định cột liên kết với bảng Student.
+	inverseJoinColumns: Chỉ định cột liên kết với bảng Course.
+
+4. Cascade và Orphan Removal
+CascadeType: Cho phép các hành động (persist, remove, merge) được thực hiện đồng thời trên các entity liên quan.
+Ví dụ: CascadeType.ALL sẽ thực hiện mọi thao tác từ entity chính tới các entity liên quan.
+Orphan Removal: Xóa các bản ghi liên kết nếu không được tham chiếu từ entity chính.
